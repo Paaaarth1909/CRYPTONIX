@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:candlesticks/candlesticks.dart';
 import 'package:cryptox_app/services/crypto_api_service.dart';
 import 'package:cryptox_app/widgets/bottom_nav_bar.dart';
+import 'package:cryptox_app/screens/add_chips_screen.dart';
 
 class CoinDetailsScreen extends StatefulWidget {
   final String coinName;
@@ -207,21 +208,25 @@ class _CoinDetailsScreenState extends State<CoinDetailsScreen> {
                   ),
                 ],
               ),
-              child: ElevatedButton(
-                onPressed: () {},
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF00BFB3),
-                  padding: EdgeInsets.symmetric(vertical: 16),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                ),
-                child: Text(
-                  'Add chips',
-                  style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                  ),
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => AddChipsScreen(
+                        coinName: widget.coinName,
+                        symbol: widget.symbol,
+                        currentPrice: widget.currentPrice,
+                        priceChangePercentage: widget.priceChangePercentage,
+                      ),
+                    ),
+                  );
+                },
+                child: Image.asset(
+                  'assets/images/add_chips_button.png',
+                  width: double.infinity,
+                  height: 56,
+                  fit: BoxFit.cover,
                 ),
               ),
             ),
