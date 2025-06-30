@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:cryptox_app/screens/wallet_chips_screen.dart';
 
 class AddChipsScreen extends StatefulWidget {
   final String coinName;
@@ -239,8 +240,12 @@ class _AddChipsScreenState extends State<AddChipsScreen> {
               opacity: amount.isEmpty ? 0.5 : 1.0,
               child: GestureDetector(
                 onTap: amount.isEmpty ? null : () {
-                  // TODO: Implement add functionality
-                  Navigator.pop(context);
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const WalletChipsScreen(),
+                    ),
+                  );
                 },
                 child: Image.asset(
                   'assets/images/add_button.png',
