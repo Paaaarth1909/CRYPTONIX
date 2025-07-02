@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import '../services/crypto_api_service.dart';
 import '../models/crypto_coin.dart';
-import '../widgets/bottom_nav_bar.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -143,12 +142,6 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ],
         ),
-      ),
-      bottomNavigationBar: CustomBottomNavBar(
-        currentIndex: 0,
-        onTap: (index) {
-          // TODO: Implement navigation logic for bottom nav bar
-        },
       ),
     );
   }
