@@ -6,16 +6,7 @@ class OnboardingScreen1 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: const BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: [
-            Colors.black,
-            Color(0xFF1A1A1A),
-          ],
-        ),
-      ),
+      color: Colors.black,
       child: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(24.0),
@@ -23,27 +14,55 @@ class OnboardingScreen1 extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Image.asset(
-                'assets/images/onboarding_rocket.png',
+                'assets/images/onboarding_candles.png',
                 height: 300,
               ),
               const SizedBox(height: 48),
-              const Text(
-                'Welcome to CryptoX',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 28,
-                  fontWeight: FontWeight.bold,
-                ),
-                textAlign: TextAlign.center,
+              const Column(
+                children: [
+                  Text(
+                    'Property',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 32,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                  Text(
+                    'Diversity',
+                    style: TextStyle(
+                      color: Color(0xFF00BFB3),
+                      fontSize: 32,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ],
               ),
-              const SizedBox(height: 16),
-              const Text(
-                'Your gateway to the world of cryptocurrency trading.',
-                style: TextStyle(
-                  color: Colors.grey,
-                  fontSize: 16,
+              const Spacer(),
+              Container(
+                width: double.infinity,
+                height: 56,
+                decoration: BoxDecoration(
+                  gradient: const LinearGradient(
+                    begin: Alignment.centerLeft,
+                    end: Alignment.centerRight,
+                    colors: [
+                      Color(0xFF00BFB3),
+                      Color(0xFF006C84),
+                    ],
+                  ),
+                  borderRadius: BorderRadius.circular(12),
                 ),
-                textAlign: TextAlign.center,
+                child: const Center(
+                  child: Text(
+                    'Get Started',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ),
               ),
             ],
           ),

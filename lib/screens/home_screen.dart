@@ -1,195 +1,154 @@
 import 'package:flutter/material.dart';
-import 'package:cryptox_app/widgets/bottom_nav_bar.dart';
-import 'package:cryptox_app/screens/coin_details_screen.dart';
-import 'package:cryptox_app/services/crypto_api_service.dart';
+import '../services/crypto_api_service.dart';
+import '../models/crypto_coin.dart';
+import '../widgets/bottom_nav_bar.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+  const HomeScreen({Key? key}) : super(key: key);
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  int _selectedIndex = 0;
   final CryptoApiService _apiService = CryptoApiService();
-  List<Map<String, dynamic>> coins = [];
-  bool isLoading = true;
+  List<CryptoCoin> _coins = [];
+  bool _isLoading = true;
+  String _error = '';
 
   @override
   void initState() {
     super.initState();
-    _loadCoins();
+    _loadCryptoData();
   }
 
-  Future<void> _loadCoins() async {
+  Future<void> _loadCryptoData() async {
     try {
-      final data = await _apiService.getCoins();
       setState(() {
-        coins = data;
-        isLoading = false;
+        _isLoading = true;
+        _error = '';
+      });
+      final coins = await _apiService.getCryptoList();
+      setState(() {
+        _coins = coins;
+        _isLoading = false;
       });
     } catch (e) {
-      // Handle error
       setState(() {
-        isLoading = false;
+        _error = e.toString();
+        _isLoading = false;
       });
     }
-  }
-
-  Widget _buildHomeContent() {
-    if (isLoading) {
-      return Center(child: CircularProgressIndicator(color: Color(0xFF00BFB3)));
-    }
-
-    return Container(
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: [
-            Colors.black,
-            Color(0xFF1A1A1A),
-          ],
-        ),
-      ),
-      child: RefreshIndicator(
-        color: Color(0xFF00BFB3),
-        onRefresh: _loadCoins,
-        child: ListView.builder(
-          itemCount: coins.length,
-          itemBuilder: (context, index) {
-            final coin = coins[index];
-            return Container(
-              margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              decoration: BoxDecoration(
-                color: const Color(0x80000000),
-                borderRadius: BorderRadius.circular(12),
-                border: Border.all(
-                  color: const Color(0x33FFFFFF),
-                  width: 1,
-                ),
-              ),
-              child: ListTile(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => CoinDetailsScreen(
-                        coinName: coin['name'],
-                        symbol: coin['symbol'],
-                        currentPrice: coin['price'],
-                        priceChangePercentage: coin['priceChange'],
-                      ),
-                    ),
-                  );
-                },
-                contentPadding: EdgeInsets.all(12),
-                leading: CircleAvatar(
-                  backgroundColor: const Color(0x3300BFB3),
-                  child: Text(
-                    coin['symbol'][0],
-                    style: TextStyle(
-                      color: Color(0xFF00BFB3),
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-                title: Text(
-                  coin['name'],
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                subtitle: Text(
-                  coin['symbol'],
-                  style: TextStyle(color: Colors.grey),
-                ),
-                trailing: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    Text(
-                      '\$${coin['price'].toStringAsFixed(2)}',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    Container(
-                      padding: EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                      decoration: BoxDecoration(
-                        color: coin['priceChange'] >= 0
-                            ? const Color(0x33008000)
-                            : const Color(0x33FF0000),
-                        borderRadius: BorderRadius.circular(4),
-                      ),
-                      child: Text(
-                        '${coin['priceChange'] >= 0 ? '+' : ''}${coin['priceChange']}%',
-                        style: TextStyle(
-                          color: coin['priceChange'] >= 0
-                              ? Colors.green
-                              : Colors.red,
-                          fontSize: 12,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            );
-          },
-        ),
-      ),
-    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        title: Text(
-          'CryptoX',
-          style: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-          ),
+      body: SafeArea(
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text(
+                    'Crypto Market',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  IconButton(
+                    icon: const Icon(Icons.refresh, color: Colors.white),
+                    onPressed: _loadCryptoData,
+                  ),
+                ],
+              ),
+            ),
+            Expanded(
+              child: _isLoading
+                  ? const Center(child: CircularProgressIndicator())
+                  : _error.isNotEmpty
+                      ? Center(
+                          child: Text(
+                            _error,
+                            style: const TextStyle(color: Colors.red),
+                          ),
+                        )
+                      : RefreshIndicator(
+                          onRefresh: _loadCryptoData,
+                          child: ListView.builder(
+                            itemCount: _coins.length,
+                            itemBuilder: (context, index) {
+                              final coin = _coins[index];
+                              final isPositiveChange = coin.changePct >= 0;
+                              return Card(
+                                margin: const EdgeInsets.symmetric(
+                                  horizontal: 16,
+                                  vertical: 8,
+                                ),
+                                color: Colors.grey[900],
+                                child: ListTile(
+                                  leading: Image.network(
+                                    coin.icon,
+                                    width: 40,
+                                    height: 40,
+                                    errorBuilder: (context, error, stackTrace) =>
+                                        const Icon(Icons.currency_bitcoin, color: Colors.amber),
+                                  ),
+                                  title: Text(
+                                    coin.name,
+                                    style: const TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  subtitle: Text(
+                                    coin.symbol,
+                                    style: TextStyle(color: Colors.grey[400]),
+                                  ),
+                                  trailing: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    children: [
+                                      Text(
+                                        '\$${coin.rate.toStringAsFixed(2)}',
+                                        style: const TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      Text(
+                                        '${isPositiveChange ? '+' : ''}${coin.changePct.toStringAsFixed(2)}%',
+                                        style: TextStyle(
+                                          color: isPositiveChange
+                                              ? Colors.green
+                                              : Colors.red,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  onTap: () {
+                                    // Navigate to coin details screen
+                                    // TODO: Implement navigation
+                                  },
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+            ),
+          ],
         ),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.search, color: Colors.white),
-            onPressed: () {
-              // TODO: Implement search
-            },
-          ),
-        ],
       ),
-      body: IndexedStack(
-        index: _selectedIndex,
-        children: [
-          _buildHomeContent(),
-          Center(child: Text('Trending', style: TextStyle(color: Colors.white))),
-          Center(child: Text('Explore', style: TextStyle(color: Colors.white))),
-          Center(child: Text('Wallet', style: TextStyle(color: Colors.white))),
-          Center(child: Text('Profile', style: TextStyle(color: Colors.white))),
-        ],
-      ),
-      bottomNavigationBar: Theme(
-        data: Theme.of(context).copyWith(
-          canvasColor: Colors.black,
-        ),
-        child: CustomBottomNavBar(
-          currentIndex: _selectedIndex,
-          onTap: (index) {
-            setState(() {
-              _selectedIndex = index;
-            });
-          },
-        ),
+      bottomNavigationBar: CustomBottomNavBar(
+        currentIndex: 0,
+        onTap: (index) {
+          // TODO: Implement navigation logic for bottom nav bar
+        },
       ),
     );
   }

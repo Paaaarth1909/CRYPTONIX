@@ -2,9 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:candlesticks/candlesticks.dart';
-import 'package:cryptox_app/services/crypto_api_service.dart';
-import 'package:cryptox_app/widgets/bottom_nav_bar.dart';
-import 'package:cryptox_app/screens/add_chips_screen.dart';
+import '../services/candle_api_service.dart';
+import '../screens/add_chips_screen.dart';
 
 class CoinDetailsScreen extends StatefulWidget {
   final String coinName;
@@ -28,7 +27,7 @@ class _CoinDetailsScreenState extends State<CoinDetailsScreen> {
   List<Candle> candles = [];
   bool isLoading = true;
   String interval = '24h';
-  final CryptoApiService _apiService = CryptoApiService();
+  final CandleApiService _candleService = CandleApiService();
 
   @override
   void initState() {
@@ -42,7 +41,7 @@ class _CoinDetailsScreenState extends State<CoinDetailsScreen> {
     });
 
     try {
-      final data = await _apiService.getCandleData(widget.symbol, interval);
+      final data = await _candleService.getCandleData(widget.symbol, interval);
       setState(() {
         candles = data;
         isLoading = false;
@@ -51,7 +50,15 @@ class _CoinDetailsScreenState extends State<CoinDetailsScreen> {
       setState(() {
         isLoading = false;
       });
-      // Handle error
+      // Show error snackbar
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Error loading chart data: ${e.toString()}'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
     }
   }
 
@@ -63,7 +70,7 @@ class _CoinDetailsScreenState extends State<CoinDetailsScreen> {
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.white),
+          icon: const Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () => Navigator.pop(context),
         ),
         title: Row(
@@ -78,7 +85,7 @@ class _CoinDetailsScreenState extends State<CoinDetailsScreen> {
                 ),
               ),
             ),
-            SizedBox(width: 8),
+            const SizedBox(width: 8),
             Text(
               '${widget.symbol} ${widget.coinName}',
               style: const TextStyle(
@@ -90,19 +97,19 @@ class _CoinDetailsScreenState extends State<CoinDetailsScreen> {
         ),
         actions: [
           IconButton(
-            icon: Icon(Icons.star_border, color: Colors.white),
+            icon: const Icon(Icons.star_border, color: Colors.white),
             onPressed: () {},
           ),
         ],
       ),
       body: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             colors: [
               Colors.black,
-              const Color(0xFF1A1A1A),
+              Color(0xFF1A1A1A),
             ],
           ),
         ),
@@ -113,9 +120,9 @@ class _CoinDetailsScreenState extends State<CoinDetailsScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
+                  const Text(
                     'Price Per Unit',
-                    style: const TextStyle(
+                    style: TextStyle(
                       color: Colors.grey,
                       fontSize: 16,
                     ),
@@ -130,9 +137,9 @@ class _CoinDetailsScreenState extends State<CoinDetailsScreen> {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      SizedBox(width: 8),
+                      const SizedBox(width: 8),
                       Container(
-                        padding: EdgeInsets.symmetric(
+                        padding: const EdgeInsets.symmetric(
                           horizontal: 8,
                           vertical: 4,
                         ),
@@ -158,17 +165,17 @@ class _CoinDetailsScreenState extends State<CoinDetailsScreen> {
             ),
             Container(
               height: 300,
-              padding: EdgeInsets.symmetric(horizontal: 16),
+              padding: const EdgeInsets.symmetric(horizontal: 16),
               child: isLoading
-                  ? Center(child: CircularProgressIndicator(color: const Color(0xFF00BFB3)))
+                  ? const Center(child: CircularProgressIndicator(color: Color(0xFF00BFB3)))
                   : Candlesticks(
                       candles: candles,
                     ),
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             SingleChildScrollView(
               scrollDirection: Axis.horizontal,
-              padding: EdgeInsets.symmetric(horizontal: 16),
+              padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Row(
                 children: [
                   _buildIntervalButton('24h'),
@@ -182,7 +189,7 @@ class _CoinDetailsScreenState extends State<CoinDetailsScreen> {
             ),
             Expanded(
               child: Container(
-                padding: EdgeInsets.all(16),
+                padding: const EdgeInsets.all(16),
                 child: Column(
                   children: [
                     _buildOverviewItem('High', '\$900.2M'),
@@ -197,9 +204,9 @@ class _CoinDetailsScreenState extends State<CoinDetailsScreen> {
             ),
             Container(
               width: double.infinity,
-              padding: EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                color: const Color(0x80000000),
+              padding: const EdgeInsets.all(16),
+              decoration: const BoxDecoration(
+                color: Color(0x80000000),
                 boxShadow: [
                   BoxShadow(
                     color: Colors.black26,
@@ -239,7 +246,7 @@ class _CoinDetailsScreenState extends State<CoinDetailsScreen> {
   Widget _buildIntervalButton(String text) {
     bool isSelected = interval == text;
     return Padding(
-      padding: EdgeInsets.only(right: 8),
+      padding: const EdgeInsets.only(right: 8),
       child: ElevatedButton(
         onPressed: () {
           setState(() {
@@ -248,19 +255,24 @@ class _CoinDetailsScreenState extends State<CoinDetailsScreen> {
           fetchCandles();
         },
         style: ElevatedButton.styleFrom(
-          backgroundColor: isSelected ? const Color(0xFF00BFB3) : const Color(0x3300BFB3),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8),
+          backgroundColor: isSelected ? const Color(0xFF00BFB3) : Colors.transparent,
+          side: BorderSide(
+            color: isSelected ? const Color(0xFF00BFB3) : Colors.grey,
           ),
         ),
-        child: Text(text),
+        child: Text(
+          text,
+          style: TextStyle(
+            color: isSelected ? Colors.white : Colors.grey,
+          ),
+        ),
       ),
     );
   }
 
   Widget _buildOverviewItem(String label, String value) {
     return Padding(
-      padding: EdgeInsets.only(bottom: 8),
+      padding: const EdgeInsets.only(bottom: 8),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -268,14 +280,12 @@ class _CoinDetailsScreenState extends State<CoinDetailsScreen> {
             label,
             style: const TextStyle(
               color: Colors.grey,
-              fontSize: 16,
             ),
           ),
           Text(
             value,
             style: const TextStyle(
               color: Colors.white,
-              fontSize: 16,
               fontWeight: FontWeight.bold,
             ),
           ),

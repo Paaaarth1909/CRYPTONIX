@@ -13,7 +13,6 @@ class OnboardingFlow extends StatefulWidget {
 class _OnboardingFlowState extends State<OnboardingFlow> {
   final PageController _controller = PageController();
   int _currentPage = 0;
-  bool _isLastPage = false;
 
   @override
   void initState() {
@@ -21,7 +20,6 @@ class _OnboardingFlowState extends State<OnboardingFlow> {
     _controller.addListener(() {
       setState(() {
         _currentPage = _controller.page?.round() ?? 0;
-        _isLastPage = _currentPage == 2;
       });
     });
   }
@@ -33,26 +31,17 @@ class _OnboardingFlowState extends State<OnboardingFlow> {
   }
 
   Widget _buildDot(int index) {
-    double width = _currentPage == index ? 24 : 8;
+    bool isSelected = _currentPage == index;
     return AnimatedContainer(
       duration: const Duration(milliseconds: 300),
       margin: const EdgeInsets.only(right: 8),
       height: 8,
-      width: width,
+      width: 8,
       decoration: BoxDecoration(
-        color: _currentPage == index ? const Color(0xFF00BFB3) : Colors.grey,
-        borderRadius: BorderRadius.circular(4),
+        color: isSelected ? const Color(0xFF00BFB3) : Colors.grey,
+        shape: BoxShape.circle,
       ),
     );
-  }
-
-  void _onNextPage() {
-    if (_currentPage < 2) {
-      _controller.nextPage(
-        duration: const Duration(milliseconds: 300),
-        curve: Curves.easeInOut,
-      );
-    }
   }
 
   @override
@@ -61,7 +50,6 @@ class _OnboardingFlowState extends State<OnboardingFlow> {
       backgroundColor: Colors.black,
       body: Stack(
         children: [
-          // PageView for the screens
           PageView(
             controller: _controller,
             children: const [
@@ -70,8 +58,6 @@ class _OnboardingFlowState extends State<OnboardingFlow> {
               OnboardingScreen3(),
             ],
           ),
-
-          // Dots indicator
           Positioned(
             bottom: 100,
             left: 0,
@@ -81,41 +67,6 @@ class _OnboardingFlowState extends State<OnboardingFlow> {
               children: List.generate(3, _buildDot),
             ),
           ),
-
-          // Next button (only shown on first two screens)
-          if (!_isLastPage)
-            Positioned(
-              bottom: 40,
-              right: 24,
-              child: GestureDetector(
-                onTap: _onNextPage,
-                child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-                  decoration: BoxDecoration(
-                    color: const Color(0xFF00BFB3),
-                    borderRadius: BorderRadius.circular(24),
-                  ),
-                  child: const Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        'Next',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      SizedBox(width: 8),
-                      Icon(
-                        Icons.arrow_forward,
-                        color: Colors.white,
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
         ],
       ),
     );

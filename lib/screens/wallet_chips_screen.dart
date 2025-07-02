@@ -41,22 +41,48 @@ class _WalletChipsScreenState extends State<WalletChipsScreen> {
     });
   }
 
+  void _addChip(ChipItem chip) {
+    setState(() {
+      _chips.add(chip);
+    });
+  }
+
   Widget _buildChipItem(ChipItem chip, int index) {
     return Dismissible(
       key: Key(chip.symbol + index.toString()),
-      direction: DismissDirection.endToStart,
+      direction: DismissDirection.horizontal,
+      confirmDismiss: (direction) async {
+        if (direction == DismissDirection.endToStart) {
+          // Delete action
+          _deleteChip(index);
+          return true;
+        } else if (direction == DismissDirection.startToEnd) {
+          // Add action
+          // TODO: Implement add action
+          return false;
+        }
+        return false;
+      },
       background: Container(
-        alignment: Alignment.centerRight,
-        padding: const EdgeInsets.only(right: 20),
-        color: Colors.red,
-        child: const Icon(
-          Icons.delete,
-          color: Colors.white,
+        color: const Color(0xFF4CAF50),
+        alignment: Alignment.centerLeft,
+        padding: const EdgeInsets.only(left: 20),
+        child: Image.asset(
+          'assets/images/add_redbutton.png',
+          width: 40,
+          height: 40,
         ),
       ),
-      onDismissed: (direction) {
-        _deleteChip(index);
-      },
+      secondaryBackground: Container(
+        color: Colors.red,
+        alignment: Alignment.centerRight,
+        padding: const EdgeInsets.only(right: 20),
+        child: Image.asset(
+          'assets/images/delete_button.png',
+          width: 40,
+          height: 40,
+        ),
+      ),
       child: Container(
         margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         decoration: BoxDecoration(
@@ -69,40 +95,22 @@ class _WalletChipsScreenState extends State<WalletChipsScreen> {
         ),
         child: ListTile(
           contentPadding: const EdgeInsets.all(12),
-          leading: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Container(
-                width: 40,
-                height: 40,
-                decoration: const BoxDecoration(
-                  color: Color(0xFF4CAF50),
-                  shape: BoxShape.circle,
-                ),
-                child: const Icon(
-                  Icons.add,
+          leading: Container(
+            width: 40,
+            height: 40,
+            decoration: const BoxDecoration(
+              color: Color(0xFFFFB119),
+              shape: BoxShape.circle,
+            ),
+            child: Center(
+              child: Text(
+                chip.symbol[0],
+                style: const TextStyle(
                   color: Colors.white,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
-              const SizedBox(width: 8),
-              Container(
-                width: 40,
-                height: 40,
-                decoration: const BoxDecoration(
-                  color: Color(0xFFFFB119),
-                  shape: BoxShape.circle,
-                ),
-                child: Center(
-                  child: Text(
-                    chip.symbol[0],
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              ),
-            ],
+            ),
           ),
           title: Text(
             chip.coinName,
