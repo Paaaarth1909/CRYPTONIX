@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import '../services/crypto_api_service.dart';
 import '../models/crypto_coin.dart';
+import '../widgets/bottom_nav_bar.dart';
+import 'settings_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -14,6 +16,7 @@ class _HomeScreenState extends State<HomeScreen> {
   List<CryptoCoin> _coins = [];
   bool _isLoading = true;
   String _error = '';
+  int _currentIndex = 0;
 
   @override
   void initState() {
@@ -38,6 +41,20 @@ class _HomeScreenState extends State<HomeScreen> {
         _isLoading = false;
       });
     }
+  }
+
+  void _onNavTap(int index) {
+    if (index == 4) { // Profile/Settings tab
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const SettingsScreen(),
+        ),
+      );
+    }
+    setState(() {
+      _currentIndex = index;
+    });
   }
 
   @override
@@ -142,6 +159,10 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ],
         ),
+      ),
+      bottomNavigationBar: CustomBottomNavBar(
+        currentIndex: _currentIndex,
+        onTap: _onNavTap,
       ),
     );
   }

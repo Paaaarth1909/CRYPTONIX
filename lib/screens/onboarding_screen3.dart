@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:cryptox_app/screens/main_screen.dart';
+import 'package:cryptox_app/screens/home_screen.dart';
 
 class OnboardingScreen3 extends StatelessWidget {
   const OnboardingScreen3({super.key});
@@ -45,7 +45,7 @@ class OnboardingScreen3 extends StatelessWidget {
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const MainScreen(),
+                      builder: (context) => const HomeScreen(),
                     ),
                   );
                 },

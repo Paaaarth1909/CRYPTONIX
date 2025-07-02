@@ -54,7 +54,7 @@ class CustomBottomNavBar extends StatelessWidget {
               _buildNavItem('assets/images/nav_trending.png', 'Trending'),
               _buildNavItem('assets/images/nav_explore.png', 'Explore'),
               _buildNavItem('assets/images/nav_wallet.png', 'Wallet'),
-              _buildNavItem('assets/images/nav_profile.png', 'Profile'),
+              _buildProfileNavItem(),
             ],
           ),
         ),
@@ -80,6 +80,27 @@ class CustomBottomNavBar extends StatelessWidget {
         ),
       ),
       label: label,
+    );
+  }
+
+  BottomNavigationBarItem _buildProfileNavItem() {
+    return BottomNavigationBarItem(
+      icon: Padding(
+        padding: const EdgeInsets.only(bottom: 4),
+        child: ImageIcon(
+          const AssetImage('assets/images/nav_profile.png'),
+          size: 24,
+        ),
+      ),
+      activeIcon: Padding(
+        padding: const EdgeInsets.only(bottom: 4),
+        child: Image.asset(
+          'assets/images/profile_click.png',
+          width: 24,
+          height: 24,
+        ),
+      ),
+      label: 'Profile',
     );
   }
 }
