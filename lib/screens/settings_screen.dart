@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'privacy_policy_screen.dart';
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({Key? key}) : super(key: key);
@@ -47,21 +48,36 @@ class SettingsScreen extends StatelessWidget {
                   padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                   children: [
                     _buildSettingItem(
+                      context: context,
                       icon: Icons.lock_outline,
                       title: 'Privacy Policy',
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const PrivacyPolicyScreen(),
+                          ),
+                        );
+                      },
                     ),
                     _buildSettingItem(
+                      context: context,
                       icon: Icons.star_outline,
                       title: 'Index',
+                      onTap: () {},
                     ),
                     _buildSettingItem(
+                      context: context,
                       icon: Icons.language,
                       title: 'Language',
                       subtitle: 'English',
+                      onTap: () {},
                     ),
                     _buildSettingItem(
+                      context: context,
                       icon: Icons.logout,
                       title: 'Quit',
+                      onTap: () {},
                     ),
                   ],
                 ),
@@ -74,9 +90,11 @@ class SettingsScreen extends StatelessWidget {
   }
 
   Widget _buildSettingItem({
+    required BuildContext context,
     required IconData icon,
     required String title,
     String? subtitle,
+    required VoidCallback onTap,
   }) {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 8),
@@ -134,9 +152,7 @@ class SettingsScreen extends StatelessWidget {
             size: 18,
           ),
         ),
-        onTap: () {
-          // Handle tap for each setting
-        },
+        onTap: onTap,
       ),
     );
   }
