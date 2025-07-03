@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:candlesticks/candlesticks.dart';
+import '../config/api_config.template.dart';
 
 class CandleData {
   final DateTime date;
@@ -60,8 +61,6 @@ class CryptoGraphData {
 }
 
 class CandleApiService {
-  static const String baseUrl = 'http://161.97.157.232:8085/Bitcoin/resources';
-
   Future<CryptoGraphData> getCryptoGraph({
     required String symbol,
     String type = 'Week',
@@ -70,7 +69,7 @@ class CandleApiService {
     try {
       final response = await http.get(
         Uri.parse(
-          '$baseUrl/getBitcoinCryptoGraph?type=$type&name=$symbol&currency=$currency',
+          '${ApiConfig.baseUrl}/Bitcoin/resources/getBitcoinCryptoGraph?type=$type&name=$symbol&currency=$currency',
         ),
       );
 
