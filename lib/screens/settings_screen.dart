@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'privacy_policy_screen.dart';
+import 'index_screen.dart';
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({Key? key}) : super(key: key);
@@ -64,7 +65,14 @@ class SettingsScreen extends StatelessWidget {
                       context: context,
                       icon: Icons.star_outline,
                       title: 'Index',
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const IndexScreen(),
+                          ),
+                        );
+                      },
                     ),
                     _buildSettingItem(
                       context: context,
