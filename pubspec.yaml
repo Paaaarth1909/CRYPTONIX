@@ -79,6 +79,8 @@ flutter:
     - assets/images/delete_button.png
     - assets/images/add_redbutton.png
     - assets/images/profile_click.png
+    - assets/images/no_data_image.png
+    
     
   #   - images/a_dot_ham.jpeg
 
