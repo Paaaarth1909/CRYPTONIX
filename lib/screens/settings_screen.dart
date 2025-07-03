@@ -49,29 +49,19 @@ class SettingsScreen extends StatelessWidget {
                     _buildSettingItem(
                       icon: Icons.lock_outline,
                       title: 'Privacy Policy',
-                      iconColor: Color(0xFF00BFB3),
                     ),
                     _buildSettingItem(
                       icon: Icons.star_outline,
                       title: 'Index',
-                      iconColor: Color(0xFF00BFB3),
                     ),
                     _buildSettingItem(
                       icon: Icons.language,
                       title: 'Language',
-                      trailing: Text(
-                        'English',
-                        style: TextStyle(
-                          color: Colors.grey,
-                          fontSize: 14,
-                        ),
-                      ),
-                      iconColor: Color(0xFF00BFB3),
+                      subtitle: 'English',
                     ),
                     _buildSettingItem(
                       icon: Icons.logout,
                       title: 'Quit',
-                      iconColor: Color(0xFF00BFB3),
                     ),
                   ],
                 ),
@@ -86,8 +76,7 @@ class SettingsScreen extends StatelessWidget {
   Widget _buildSettingItem({
     required IconData icon,
     required String title,
-    Widget? trailing,
-    required Color iconColor,
+    String? subtitle,
   }) {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 8),
@@ -96,9 +85,18 @@ class SettingsScreen extends StatelessWidget {
         borderRadius: BorderRadius.circular(12),
       ),
       child: ListTile(
-        leading: Icon(
-          icon,
-          color: iconColor,
+        leading: Container(
+          width: 40,
+          height: 40,
+          decoration: BoxDecoration(
+            color: Color(0xFF00BFB3).withOpacity(0.1),
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: Icon(
+            icon,
+            color: Color(0xFF00BFB3),
+            size: 20,
+          ),
         ),
         title: Text(
           title,
@@ -107,9 +105,34 @@ class SettingsScreen extends StatelessWidget {
             fontSize: 16,
           ),
         ),
-        trailing: trailing ?? Icon(
-          Icons.chevron_right,
-          color: Colors.grey,
+        subtitle: subtitle != null
+          ? Text(
+              subtitle,
+              style: TextStyle(
+                color: Colors.grey,
+                fontSize: 14,
+              ),
+            )
+          : null,
+        trailing: Container(
+          width: 24,
+          height: 24,
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.centerLeft,
+              end: Alignment.centerRight,
+              colors: [
+                Color(0xFF00BFB3),
+                Color(0xFF006C84),
+              ],
+            ),
+            borderRadius: BorderRadius.circular(6),
+          ),
+          child: Icon(
+            Icons.chevron_right,
+            color: Colors.white,
+            size: 18,
+          ),
         ),
         onTap: () {
           // Handle tap for each setting
