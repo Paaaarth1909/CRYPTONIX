@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 import 'privacy_policy_screen.dart';
 import 'index_screen.dart';
+import 'language_screen.dart';
+import '../providers/language_provider.dart';
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({Key? key}) : super(key: key);
@@ -127,49 +130,60 @@ class SettingsScreen extends StatelessWidget {
               ),
               // Settings options
               Expanded(
-                child: ListView(
-                  padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                  children: [
-                    _buildSettingItem(
-                      context: context,
-                      icon: Icons.lock_outline,
-                      title: 'Privacy Policy',
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const PrivacyPolicyScreen(),
-                          ),
-                        );
-                      },
-                    ),
-                    _buildSettingItem(
-                      context: context,
-                      icon: Icons.star_outline,
-                      title: 'Index',
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const IndexScreen(),
-                          ),
-                        );
-                      },
-                    ),
-                    _buildSettingItem(
-                      context: context,
-                      icon: Icons.language,
-                      title: 'Language',
-                      subtitle: 'English',
-                      onTap: () {},
-                    ),
-                    _buildSettingItem(
-                      context: context,
-                      icon: Icons.logout,
-                      title: 'Quit',
-                      onTap: () => _showQuitDialog(context),
-                    ),
-                  ],
+                child: Consumer<LanguageProvider>(
+                  builder: (context, languageProvider, child) {
+                    return ListView(
+                      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                      children: [
+                        _buildSettingItem(
+                          context: context,
+                          icon: Icons.lock_outline,
+                          title: 'Privacy Policy',
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const PrivacyPolicyScreen(),
+                              ),
+                            );
+                          },
+                        ),
+                        _buildSettingItem(
+                          context: context,
+                          icon: Icons.star_outline,
+                          title: 'Index',
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const IndexScreen(),
+                              ),
+                            );
+                          },
+                        ),
+                        _buildSettingItem(
+                          context: context,
+                          icon: Icons.language,
+                          title: 'Language',
+                          subtitle: languageProvider.currentLanguage.name,
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const LanguageScreen(),
+                              ),
+                            );
+                          },
+                        ),
+                        _buildSettingItem(
+                          context: context,
+                          icon: Icons.logout,
+                          title: 'Quit',
+                          onTap: () => _showQuitDialog(context),
+                        ),
+                      ],
+                    );
+                  },
                 ),
               ),
             ],
