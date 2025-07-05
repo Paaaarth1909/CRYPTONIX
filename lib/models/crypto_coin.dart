@@ -40,4 +40,6 @@ class CryptoCoin {
       cap: (json['cap'] as num).toDouble(),
     );
   }
+
+  get marketCap => null;
 } 

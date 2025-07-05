@@ -80,7 +80,7 @@ class _CoinDetailsScreenState extends State<CoinDetailsScreen> {
 
     return Scaffold(
       body: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
@@ -100,26 +100,26 @@ class _CoinDetailsScreenState extends State<CoinDetailsScreen> {
                   children: [
                     GestureDetector(
                       onTap: () => Navigator.pop(context),
-                      child: Icon(Icons.arrow_back, color: Colors.white),
+                      child: const Icon(Icons.arrow_back, color: Colors.white),
                     ),
-                    SizedBox(width: 16),
+                    const SizedBox(width: 16),
                     Image.network(
                       widget.coin.icon,
                       width: 24,
                       height: 24,
                     ),
-                    SizedBox(width: 8),
+                    const SizedBox(width: 8),
                     Text(
                       '${widget.coin.name} ${widget.coin.symbol}',
-                      style: TextStyle(
+                      style: const TextStyle(
                         color: Colors.white,
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    Spacer(),
+                    const Spacer(),
                     IconButton(
-                      icon: Icon(Icons.star_border, color: Colors.white),
+                      icon: const Icon(Icons.star_border, color: Colors.white),
                       onPressed: () {
                         // TODO: Implement favorite functionality
                       },
@@ -133,29 +133,29 @@ class _CoinDetailsScreenState extends State<CoinDetailsScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
+                    const Text(
                       'Price Per Unit',
                       style: TextStyle(
                         color: Colors.grey,
                         fontSize: 14,
                       ),
                     ),
-                    SizedBox(height: 4),
+                    const SizedBox(height: 4),
                     Row(
                       children: [
                         Text(
                           '\$${widget.coin.rate.toStringAsFixed(2)}',
-                          style: TextStyle(
+                          style: const TextStyle(
                             color: Colors.white,
                             fontSize: 24,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        SizedBox(width: 8),
+                        const SizedBox(width: 8),
                         Text(
                           '${isPositiveChange ? '+' : ''}${widget.coin.changePct.toStringAsFixed(1)}%',
                           style: TextStyle(
-                            color: isPositiveChange ? Color(0xFF00BFB3) : Colors.red,
+                            color: isPositiveChange ? const Color(0xFF00BFB3) : Colors.red,
                             fontSize: 16,
                             fontWeight: FontWeight.w500,
                           ),
@@ -168,9 +168,9 @@ class _CoinDetailsScreenState extends State<CoinDetailsScreen> {
               // Graph
               Expanded(
                 child: _isLoading
-                    ? Center(child: CircularProgressIndicator())
+                    ? const Center(child: CircularProgressIndicator())
                     : _graphData == null
-                        ? Center(
+                        ? const Center(
                             child: Text(
                               'Failed to load graph data',
                               style: TextStyle(color: Colors.white),
@@ -180,20 +180,20 @@ class _CoinDetailsScreenState extends State<CoinDetailsScreen> {
                             padding: const EdgeInsets.all(16.0),
                             child: LineChart(
                               LineChartData(
-                                gridData: FlGridData(show: false),
-                                titlesData: FlTitlesData(show: false),
+                                gridData: const FlGridData(show: false),
+                                titlesData: const FlTitlesData(show: false),
                                 borderData: FlBorderData(show: false),
                                 lineBarsData: [
                                   LineChartBarData(
                                     spots: _getSpots(),
                                     isCurved: true,
-                                    color: Color(0xFF00BFB3),
+                                    color: const Color(0xFF00BFB3),
                                     barWidth: 2,
                                     isStrokeCapRound: true,
-                                    dotData: FlDotData(show: false),
+                                    dotData: const FlDotData(show: false),
                                     belowBarData: BarAreaData(
                                       show: true,
-                                      color: Color(0xFF00BFB3).withOpacity(0.1),
+                                      color: const Color(0xFF00BFB3).withOpacity(0.1),
                                     ),
                                   ),
                                 ],
@@ -221,13 +221,13 @@ class _CoinDetailsScreenState extends State<CoinDetailsScreen> {
                         _loadGraphData();
                       },
                       child: Container(
-                        padding: EdgeInsets.symmetric(
+                        padding: const EdgeInsets.symmetric(
                           horizontal: 16,
                           vertical: 8,
                         ),
                         decoration: BoxDecoration(
                           color: isSelected
-                              ? Color(0xFF00BFB3)
+                              ? const Color(0xFF00BFB3)
                               : Colors.transparent,
                           borderRadius: BorderRadius.circular(20),
                         ),
@@ -246,8 +246,8 @@ class _CoinDetailsScreenState extends State<CoinDetailsScreen> {
               ),
               // Overview
               Container(
-                margin: EdgeInsets.all(16),
-                padding: EdgeInsets.all(16),
+                margin: const EdgeInsets.all(16),
+                padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
                   color: Colors.black.withOpacity(0.3),
                   borderRadius: BorderRadius.circular(12),
@@ -255,7 +255,7 @@ class _CoinDetailsScreenState extends State<CoinDetailsScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
+                    const Text(
                       'Overview',
                       style: TextStyle(
                         color: Colors.white,
@@ -263,7 +263,7 @@ class _CoinDetailsScreenState extends State<CoinDetailsScreen> {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    SizedBox(height: 16),
+                    const SizedBox(height: 16),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -279,7 +279,7 @@ class _CoinDetailsScreenState extends State<CoinDetailsScreen> {
                         ),
                       ],
                     ),
-                    SizedBox(height: 16),
+                    const SizedBox(height: 16),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -295,7 +295,7 @@ class _CoinDetailsScreenState extends State<CoinDetailsScreen> {
                         ),
                       ],
                     ),
-                    SizedBox(height: 16),
+                    const SizedBox(height: 16),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -322,13 +322,13 @@ class _CoinDetailsScreenState extends State<CoinDetailsScreen> {
                     // TODO: Implement add chips functionality
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Color(0xFF00BFB3),
-                    minimumSize: Size(double.infinity, 50),
+                    backgroundColor: const Color(0xFF00BFB3),
+                    minimumSize: const Size(double.infinity, 50),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),
                     ),
                   ),
-                  child: Text(
+                  child: const Text(
                     'Add chips',
                     style: TextStyle(
                       color: Colors.white,
@@ -351,12 +351,12 @@ class _CoinDetailsScreenState extends State<CoinDetailsScreen> {
       children: [
         Text(
           label,
-          style: TextStyle(
+          style: const TextStyle(
             color: Colors.grey,
             fontSize: 14,
           ),
         ),
-        SizedBox(height: 4),
+        const SizedBox(height: 4),
         Text(
           value,
           style: TextStyle(

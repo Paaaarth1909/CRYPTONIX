@@ -41,11 +41,6 @@ class _WalletChipsScreenState extends State<WalletChipsScreen> {
     });
   }
 
-  void _addChip(ChipItem chip) {
-    setState(() {
-      _chips.add(chip);
-    });
-  }
 
   Widget _buildChipItem(ChipItem chip, int index) {
     return Dismissible(
