@@ -47,68 +47,82 @@ class NewsCard extends StatefulWidget {
 
 class _NewsCardState extends State<NewsCard> {
   bool isFollowing = false;
+  bool isOptionsSheetOpen = false;
 
-  void _showOptionsBottomSheet(BuildContext context) {
-    showModalBottomSheet(
-      context: context,
-      backgroundColor: Colors.transparent,
-      builder: (context) => Container(
-        decoration: const BoxDecoration(
-          color: Color(0xFF1E1E1E),
-          borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const SizedBox(height: 8),
-            Container(
-              width: 40,
-              height: 4,
-              decoration: BoxDecoration(
-                color: Colors.grey[600],
-                borderRadius: BorderRadius.circular(2),
+  void _toggleOptionsBottomSheet(BuildContext context) {
+    if (isOptionsSheetOpen) {
+      Navigator.pop(context);
+      isOptionsSheetOpen = false;
+    } else {
+      isOptionsSheetOpen = true;
+      showModalBottomSheet(
+        context: context,
+        backgroundColor: Colors.transparent,
+        builder: (context) => Container(
+          decoration: const BoxDecoration(
+            color: Color(0xFF1E1E1E),
+            borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const SizedBox(height: 8),
+              Container(
+                width: 40,
+                height: 4,
+                decoration: BoxDecoration(
+                  color: Colors.grey[600],
+                  borderRadius: BorderRadius.circular(2),
+                ),
               ),
-            ),
-            const SizedBox(height: 20),
-            _buildOptionItem(
-              icon: Icons.share_outlined,
-              label: 'Share',
-              onTap: () {
-                Navigator.pop(context);
-                _shareNews();
-              },
-            ),
-            _buildOptionItem(
-              icon: Icons.person_remove_outlined,
-              label: 'Unfollow Binance',
-              onTap: () {
-                Navigator.pop(context);
-                setState(() {
-                  isFollowing = false;
-                });
-              },
-            ),
-            _buildOptionItem(
-              icon: Icons.bookmark_border_outlined,
-              label: 'Save',
-              onTap: () {
-                Navigator.pop(context);
-                _saveNews();
-              },
-            ),
-            _buildOptionItem(
-              icon: Icons.open_in_browser,
-              label: 'Open in browser',
-              onTap: () {
-                Navigator.pop(context);
-                _openInBrowser();
-              },
-            ),
-            const SizedBox(height: 20),
-          ],
+              const SizedBox(height: 20),
+              _buildOptionItem(
+                icon: Icons.share_outlined,
+                label: 'Share',
+                onTap: () {
+                  Navigator.pop(context);
+                  isOptionsSheetOpen = false;
+                  _shareNews();
+                },
+              ),
+              _buildOptionItem(
+                icon: Icons.person_remove_outlined,
+                label: 'Unfollow Binance',
+                onTap: () {
+                  Navigator.pop(context);
+                  isOptionsSheetOpen = false;
+                  setState(() {
+                    isFollowing = false;
+                  });
+                },
+              ),
+              _buildOptionItem(
+                icon: Icons.bookmark_border_outlined,
+                label: 'Save',
+                onTap: () {
+                  Navigator.pop(context);
+                  isOptionsSheetOpen = false;
+                  _saveNews();
+                },
+              ),
+              _buildOptionItem(
+                icon: Icons.open_in_browser,
+                label: 'Open in browser',
+                onTap: () {
+                  Navigator.pop(context);
+                  isOptionsSheetOpen = false;
+                  _openInBrowser();
+                },
+              ),
+              const SizedBox(height: 20),
+            ],
+          ),
         ),
-      ),
-    );
+      ).then((_) {
+        // This callback is called when the bottom sheet is dismissed
+        isOptionsSheetOpen = false;
+      });
+    }
   }
 
   Widget _buildOptionItem({
@@ -338,7 +352,7 @@ There are also mini games within the app that you can play with friends and that
                 ),
                 IconButton(
                   icon: const Icon(Icons.more_horiz, color: Colors.white),
-                  onPressed: () => _showOptionsBottomSheet(context),
+                  onPressed: () => _toggleOptionsBottomSheet(context),
                 ),
               ],
             ),
