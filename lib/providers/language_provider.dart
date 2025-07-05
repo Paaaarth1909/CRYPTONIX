@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../models/language.dart';
-import 'package:shared_preferences.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LanguageProvider extends ChangeNotifier {
   static const String _languageCodeKey = 'languageCode';
