@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:share_plus/share_plus.dart';
 import 'news_detail_screen.dart';
 
 class NewsScreen extends StatelessWidget {
@@ -44,6 +47,130 @@ class NewsCard extends StatefulWidget {
 
 class _NewsCardState extends State<NewsCard> {
   bool isFollowing = false;
+
+  void _showOptionsBottomSheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.transparent,
+      builder: (context) => Container(
+        decoration: const BoxDecoration(
+          color: Color(0xFF1E1E1E),
+          borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const SizedBox(height: 8),
+            Container(
+              width: 40,
+              height: 4,
+              decoration: BoxDecoration(
+                color: Colors.grey[600],
+                borderRadius: BorderRadius.circular(2),
+              ),
+            ),
+            const SizedBox(height: 20),
+            _buildOptionItem(
+              icon: Icons.share_outlined,
+              label: 'Share',
+              onTap: () {
+                Navigator.pop(context);
+                _shareNews();
+              },
+            ),
+            _buildOptionItem(
+              icon: Icons.person_remove_outlined,
+              label: 'Unfollow Binance',
+              onTap: () {
+                Navigator.pop(context);
+                setState(() {
+                  isFollowing = false;
+                });
+              },
+            ),
+            _buildOptionItem(
+              icon: Icons.bookmark_border_outlined,
+              label: 'Save',
+              onTap: () {
+                Navigator.pop(context);
+                _saveNews();
+              },
+            ),
+            _buildOptionItem(
+              icon: Icons.open_in_browser,
+              label: 'Open in browser',
+              onTap: () {
+                Navigator.pop(context);
+                _openInBrowser();
+              },
+            ),
+            const SizedBox(height: 20),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildOptionItem({
+    required IconData icon,
+    required String label,
+    required VoidCallback onTap,
+  }) {
+    return InkWell(
+      onTap: onTap,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 24),
+        child: Row(
+          children: [
+            Icon(icon, color: Colors.white, size: 24),
+            const SizedBox(width: 16),
+            Text(
+              label,
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 16,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  void _shareNews() async {
+    try {
+      await Share.share(
+        'Check out this news from Binance Marketplace!\nhttps://binance.com/marketplace',
+        subject: 'Binance Marketplace News',
+      );
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Could not share news')),
+      );
+    }
+  }
+
+  void _saveNews() {
+    // Implement save functionality
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('News saved successfully'),
+        backgroundColor: Color(0xFF1E3A2B),
+      ),
+    );
+  }
+
+  void _openInBrowser() async {
+    final Uri url = Uri.parse('https://binance.com/marketplace');
+    try {
+      await launchUrl(url, mode: LaunchMode.externalApplication);
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Could not open browser')),
+      );
+    }
+  }
 
   void _showFollowingNotification(BuildContext context) {
     final snackBar = SnackBar(
@@ -211,7 +338,7 @@ There are also mini games within the app that you can play with friends and that
                 ),
                 IconButton(
                   icon: const Icon(Icons.more_horiz, color: Colors.white),
-                  onPressed: () {},
+                  onPressed: () => _showOptionsBottomSheet(context),
                 ),
               ],
             ),
