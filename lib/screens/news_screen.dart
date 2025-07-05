@@ -31,7 +31,7 @@ class NewsScreen extends StatelessWidget {
         physics: const BouncingScrollPhysics(),
         itemCount: 10, // Will be replaced with actual news data length
         itemBuilder: (context, index) {
-          return NewsCard();
+          return const NewsCard();
         },
       ),
     );
@@ -194,15 +194,15 @@ class _NewsCardState extends State<NewsCard> {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
+          const Row(
             children: [
-              const Icon(
+              Icon(
                 Icons.check_circle,
                 color: Colors.white,
                 size: 24,
               ),
-              const SizedBox(width: 12),
-              const Text(
+              SizedBox(width: 12),
+              Text(
                 'Following is success!',
                 style: TextStyle(
                   color: Colors.white,
@@ -261,7 +261,7 @@ class _NewsCardState extends State<NewsCard> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => NewsDetailScreen(
+        builder: (context) => const NewsDetailScreen(
           title: 'Binance Marketplace, The Super App for Crypto!',
           content: '''Access your favorite businesses right at your fingertips via the Binance app. Binance Marketplace is a platform that makes spending crypto easy and rewarding.
 
@@ -304,7 +304,7 @@ There are also mini games within the app that you can play with friends and that
           children: [
             Row(
               children: [
-                CircleAvatar(
+                const CircleAvatar(
                   radius: 20,
                   backgroundImage: AssetImage('assets/images/logo.png'),
                 ),

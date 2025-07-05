@@ -10,7 +10,7 @@ class LanguageScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
@@ -31,10 +31,10 @@ class LanguageScreen extends StatelessWidget {
                   children: [
                     GestureDetector(
                       onTap: () => Navigator.pop(context),
-                      child: Icon(Icons.arrow_back, color: Colors.white),
+                      child: const Icon(Icons.arrow_back, color: Colors.white),
                     ),
-                    SizedBox(width: 16),
-                    Text(
+                    const SizedBox(width: 16),
+                    const Text(
                       'Language',
                       style: TextStyle(
                         color: Colors.white,
@@ -50,7 +50,7 @@ class LanguageScreen extends StatelessWidget {
                 child: Consumer<LanguageProvider>(
                   builder: (context, languageProvider, child) {
                     return ListView.builder(
-                      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                       itemCount: Language.languages.length,
                       itemBuilder: (context, index) {
                         final language = Language.languages[index];
@@ -62,7 +62,7 @@ class LanguageScreen extends StatelessWidget {
                             Navigator.pop(context);
                           },
                           child: Container(
-                            padding: EdgeInsets.symmetric(vertical: 16),
+                            padding: const EdgeInsets.symmetric(vertical: 16),
                             decoration: BoxDecoration(
                               border: index < Language.languages.length - 1
                                 ? Border(
@@ -81,16 +81,16 @@ class LanguageScreen extends StatelessWidget {
                                   children: [
                                     Text(
                                       language.name,
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                         color: Colors.white,
                                         fontSize: 16,
                                         fontWeight: FontWeight.w500,
                                       ),
                                     ),
-                                    SizedBox(height: 4),
+                                    const SizedBox(height: 4),
                                     Text(
                                       language.country,
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                         color: Colors.grey,
                                         fontSize: 14,
                                       ),
@@ -98,7 +98,7 @@ class LanguageScreen extends StatelessWidget {
                                   ],
                                 ),
                                 if (isSelected)
-                                  Icon(
+                                  const Icon(
                                     Icons.check,
                                     color: Color(0xFF00BFB3),
                                     size: 24,

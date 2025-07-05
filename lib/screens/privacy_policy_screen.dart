@@ -7,7 +7,7 @@ class PrivacyPolicyScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
@@ -28,10 +28,10 @@ class PrivacyPolicyScreen extends StatelessWidget {
                   children: [
                     GestureDetector(
                       onTap: () => Navigator.pop(context),
-                      child: Icon(Icons.arrow_back, color: Colors.white),
+                      child: const Icon(Icons.arrow_back, color: Colors.white),
                     ),
-                    SizedBox(width: 16),
-                    Text(
+                    const SizedBox(width: 16),
+                    const Text(
                       'Privacy Policy',
                       style: TextStyle(
                         color: Colors.white,
@@ -43,7 +43,7 @@ class PrivacyPolicyScreen extends StatelessWidget {
                 ),
               ),
               // Privacy Policy Content
-              Expanded(
+              const Expanded(
                 child: SingleChildScrollView(
                   padding: EdgeInsets.all(16.0),
                   child: Column(

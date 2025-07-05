@@ -196,7 +196,7 @@ class NewsDetailScreen extends StatelessWidget {
               ),
               child: Row(
                 children: [
-                  CircleAvatar(
+                  const CircleAvatar(
                     radius: 18,
                     backgroundImage: AssetImage('assets/images/logo.png'),
                   ),

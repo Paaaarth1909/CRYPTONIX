@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
             ],
             theme: ThemeData(
               scaffoldBackgroundColor: Colors.black,
-              appBarTheme: AppBarTheme(
+              appBarTheme: const AppBarTheme(
                 backgroundColor: Colors.transparent,
                 elevation: 0,
               ),

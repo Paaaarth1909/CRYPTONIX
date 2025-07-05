@@ -14,16 +14,16 @@ class SettingsScreen extends StatelessWidget {
       context: context,
       builder: (BuildContext context) {
         return Dialog(
-          backgroundColor: Color(0xFF00BFB3),
+          backgroundColor: const Color(0xFF00BFB3),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(16),
           ),
           child: Container(
-            padding: EdgeInsets.all(24),
+            padding: const EdgeInsets.all(24),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Text(
+                const Text(
                   'Are you sure you want to Quit?',
                   style: TextStyle(
                     color: Colors.white,
@@ -32,7 +32,7 @@ class SettingsScreen extends StatelessWidget {
                   ),
                   textAlign: TextAlign.center,
                 ),
-                SizedBox(height: 24),
+                const SizedBox(height: 24),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -43,13 +43,13 @@ class SettingsScreen extends StatelessWidget {
                       },
                       style: TextButton.styleFrom(
                         backgroundColor: Colors.transparent,
-                        side: BorderSide(color: Colors.white),
+                        side: const BorderSide(color: Colors.white),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8),
                         ),
-                        padding: EdgeInsets.symmetric(horizontal: 32, vertical: 12),
+                        padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 12),
                       ),
-                      child: Text(
+                      child: const Text(
                         'No',
                         style: TextStyle(
                           color: Colors.white,
@@ -58,20 +58,20 @@ class SettingsScreen extends StatelessWidget {
                         ),
                       ),
                     ),
-                    SizedBox(width: 16),
+                    const SizedBox(width: 16),
                     // Yes button
                     TextButton(
                       onPressed: () {
                         SystemNavigator.pop(); // Close the app
                       },
                       style: TextButton.styleFrom(
-                        backgroundColor: Color(0xFF006C84),
+                        backgroundColor: const Color(0xFF006C84),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8),
                         ),
-                        padding: EdgeInsets.symmetric(horizontal: 32, vertical: 12),
+                        padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 12),
                       ),
-                      child: Text(
+                      child: const Text(
                         'Yes',
                         style: TextStyle(
                           color: Colors.white,
@@ -94,7 +94,7 @@ class SettingsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
@@ -114,10 +114,10 @@ class SettingsScreen extends StatelessWidget {
                   children: [
                     GestureDetector(
                       onTap: () => Navigator.pop(context),
-                      child: Icon(Icons.arrow_back, color: Colors.white),
+                      child: const Icon(Icons.arrow_back, color: Colors.white),
                     ),
-                    SizedBox(width: 16),
-                    Text(
+                    const SizedBox(width: 16),
+                    const Text(
                       'Settings',
                       style: TextStyle(
                         color: Colors.white,
@@ -133,7 +133,7 @@ class SettingsScreen extends StatelessWidget {
                 child: Consumer<LanguageProvider>(
                   builder: (context, languageProvider, child) {
                     return ListView(
-                      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                       children: [
                         _buildSettingItem(
                           context: context,
@@ -201,7 +201,7 @@ class SettingsScreen extends StatelessWidget {
     required VoidCallback onTap,
   }) {
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 8),
+      margin: const EdgeInsets.symmetric(vertical: 8),
       decoration: BoxDecoration(
         color: Colors.black.withOpacity(0.3),
         borderRadius: BorderRadius.circular(12),
@@ -211,18 +211,18 @@ class SettingsScreen extends StatelessWidget {
           width: 40,
           height: 40,
           decoration: BoxDecoration(
-            color: Color(0xFF00BFB3).withOpacity(0.1),
+            color: const Color(0xFF00BFB3).withOpacity(0.1),
             borderRadius: BorderRadius.circular(8),
           ),
           child: Icon(
             icon,
-            color: Color(0xFF00BFB3),
+            color: const Color(0xFF00BFB3),
             size: 20,
           ),
         ),
         title: Text(
           title,
-          style: TextStyle(
+          style: const TextStyle(
             color: Colors.white,
             fontSize: 16,
           ),
@@ -230,7 +230,7 @@ class SettingsScreen extends StatelessWidget {
         subtitle: subtitle != null
           ? Text(
               subtitle,
-              style: TextStyle(
+              style: const TextStyle(
                 color: Colors.grey,
                 fontSize: 14,
               ),
@@ -240,7 +240,7 @@ class SettingsScreen extends StatelessWidget {
           width: 24,
           height: 24,
           decoration: BoxDecoration(
-            gradient: LinearGradient(
+            gradient: const LinearGradient(
               begin: Alignment.centerLeft,
               end: Alignment.centerRight,
               colors: [
@@ -250,7 +250,7 @@ class SettingsScreen extends StatelessWidget {
             ),
             borderRadius: BorderRadius.circular(6),
           ),
-          child: Icon(
+          child: const Icon(
             Icons.chevron_right,
             color: Colors.white,
             size: 18,
