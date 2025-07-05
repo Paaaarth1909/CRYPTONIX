@@ -1,3 +1,4 @@
+import 'package:cryptox_app/models/language.dart';
 import 'package:cryptox_app/screens/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
