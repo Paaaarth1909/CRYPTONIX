@@ -37,6 +37,69 @@ class NewsScreen extends StatelessWidget {
 class NewsCard extends StatelessWidget {
   const NewsCard({Key? key}) : super(key: key);
 
+  void _showFollowingNotification(BuildContext context) {
+    final snackBar = SnackBar(
+      backgroundColor: const Color(0xFF1E3A2B),
+      duration: const Duration(seconds: 3),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              const Icon(
+                Icons.check_circle,
+                color: Colors.white,
+                size: 24,
+              ),
+              const SizedBox(width: 12),
+              const Text(
+                'Following is success!',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 8),
+          const Text(
+            'Its goal is to show people the stories they care\nabout most, every time they visit.',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 14,
+            ),
+          ),
+          const SizedBox(height: 8),
+          GestureDetector(
+            onTap: () {
+              // Handle "See more" tap
+              ScaffoldMessenger.of(context).hideCurrentSnackBar();
+            },
+            child: const Text(
+              'See more',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 14,
+                decoration: TextDecoration.underline,
+              ),
+            ),
+          ),
+        ],
+      ),
+      behavior: SnackBarBehavior.floating,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+      ),
+      margin: const EdgeInsets.all(16),
+    );
+
+    ScaffoldMessenger.of(context)
+      ..hideCurrentSnackBar()
+      ..showSnackBar(snackBar);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -84,7 +147,7 @@ class NewsCard extends StatelessWidget {
                 ),
               ),
               ElevatedButton(
-                onPressed: () {},
+                onPressed: () => _showFollowingNotification(context),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xFF00BFB3),
                   shape: RoundedRectangleBorder(
