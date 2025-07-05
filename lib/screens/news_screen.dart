@@ -35,8 +35,15 @@ class NewsScreen extends StatelessWidget {
   }
 }
 
-class NewsCard extends StatelessWidget {
+class NewsCard extends StatefulWidget {
   const NewsCard({Key? key}) : super(key: key);
+
+  @override
+  State<NewsCard> createState() => _NewsCardState();
+}
+
+class _NewsCardState extends State<NewsCard> {
+  bool isFollowing = false;
 
   void _showFollowingNotification(BuildContext context) {
     final snackBar = SnackBar(
@@ -98,6 +105,15 @@ class NewsCard extends StatelessWidget {
     ScaffoldMessenger.of(context)
       ..hideCurrentSnackBar()
       ..showSnackBar(snackBar);
+  }
+
+  void _toggleFollow(BuildContext context) {
+    setState(() {
+      isFollowing = !isFollowing;
+    });
+    if (isFollowing) {
+      _showFollowingNotification(context);
+    }
   }
 
   void _navigateToDetail(BuildContext context) {
@@ -175,18 +191,19 @@ There are also mini games within the app that you can play with friends and that
                   ),
                 ),
                 ElevatedButton(
-                  onPressed: () => _showFollowingNotification(context),
+                  onPressed: () => _toggleFollow(context),
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF00BFB3),
+                    backgroundColor: isFollowing ? const Color(0xFF00BFB3) : Colors.transparent,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20),
+                      side: isFollowing ? BorderSide.none : const BorderSide(color: Color(0xFF00BFB3)),
                     ),
                     padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
                   ),
-                  child: const Text(
-                    'Following',
+                  child: Text(
+                    isFollowing ? 'Following' : 'Follow',
                     style: TextStyle(
-                      color: Colors.black,
+                      color: isFollowing ? Colors.black : const Color(0xFF00BFB3),
                       fontSize: 14,
                       fontWeight: FontWeight.bold,
                     ),
