@@ -88,6 +88,8 @@ flutter:
     - assets/images/profile_click.png
     - assets/images/no_data_image.png
     - assets/images/explore_click.png
+    - assets/images/trending_click.png
+    
     
     
   #   - images/a_dot_ham.jpeg
