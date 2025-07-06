@@ -27,13 +27,145 @@ class NewsScreen extends StatelessWidget {
         ),
         elevation: 0,
       ),
-      body: ListView.builder(
-        physics: const BouncingScrollPhysics(),
-        itemCount: 10, // Will be replaced with actual news data length
-        itemBuilder: (context, index) {
-          return const NewsCard();
-        },
+      body: Column(
+        children: [
+          const NewsSearchBar(),
+          Expanded(
+            child: ListView.builder(
+              physics: const BouncingScrollPhysics(),
+              itemCount: 10, // Will be replaced with actual news data length
+              itemBuilder: (context, index) {
+                return const NewsCard();
+              },
+            ),
+          ),
+        ],
       ),
+    );
+  }
+}
+
+class NewsSearchBar extends StatefulWidget {
+  const NewsSearchBar({Key? key}) : super(key: key);
+
+  @override
+  State<NewsSearchBar> createState() => _NewsSearchBarState();
+}
+
+class _NewsSearchBarState extends State<NewsSearchBar> {
+  final TextEditingController _searchController = TextEditingController();
+  final FocusNode _focusNode = FocusNode();
+  bool _showSuggestions = false;
+
+  // Example recent searches - will be replaced with actual data later
+  final List<String> _recentSearches = [
+    'NFT',
+    'Binance',
+    'Bank of US',
+    'Blockchain',
+    'Business',
+    'NFT Marketplace',
+    'Payment',
+    'Crypto',
+    'Merchants',
+    'Supper app',
+  ];
+
+  @override
+  void initState() {
+    super.initState();
+    _focusNode.addListener(() {
+      setState(() {
+        _showSuggestions = _focusNode.hasFocus;
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    _focusNode.dispose();
+    super.dispose();
+  }
+
+  void _clearSearch() {
+    _searchController.clear();
+    setState(() {});
+  }
+
+  void _onSearchSubmitted(String value) {
+    // TODO: Implement search functionality
+    _focusNode.unfocus();
+    setState(() {
+      _showSuggestions = false;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Container(
+            height: 48,
+            decoration: BoxDecoration(
+              color: const Color(0xFF1E1E1E),
+              borderRadius: BorderRadius.circular(24),
+            ),
+            child: TextField(
+              controller: _searchController,
+              focusNode: _focusNode,
+              style: const TextStyle(color: Colors.white),
+              decoration: InputDecoration(
+                hintText: 'Enter your keyword',
+                hintStyle: TextStyle(color: Colors.grey[400]),
+                prefixIcon: const Icon(Icons.search, color: Colors.grey),
+                suffixIcon: _searchController.text.isNotEmpty
+                    ? IconButton(
+                        icon: const Text(
+                          'Clear',
+                          style: TextStyle(
+                            color: Color(0xFF00FFA3),
+                            fontSize: 14,
+                          ),
+                        ),
+                        onPressed: _clearSearch,
+                      )
+                    : null,
+                border: InputBorder.none,
+                contentPadding: const EdgeInsets.symmetric(horizontal: 16),
+              ),
+              onSubmitted: _onSearchSubmitted,
+              onChanged: (value) => setState(() {}),
+            ),
+          ),
+        ),
+        if (_showSuggestions)
+          Container(
+            color: Colors.black,
+            child: ListView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: _recentSearches.length,
+              itemBuilder: (context, index) {
+                return ListTile(
+                  title: Text(
+                    _recentSearches[index],
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 16,
+                    ),
+                  ),
+                  onTap: () {
+                    _searchController.text = _recentSearches[index];
+                    _onSearchSubmitted(_recentSearches[index]);
+                  },
+                );
+              },
+            ),
+          ),
+      ],
     );
   }
 }
