@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../widgets/bottom_nav_bar.dart';
 import 'home_screen.dart';
 import 'news_screen.dart';
+import 'trending_screen.dart';
 
 class IndexScreen extends StatefulWidget {
   const IndexScreen({Key? key}) : super(key: key);
@@ -15,7 +16,7 @@ class _IndexScreenState extends State<IndexScreen> {
 
   final List<Widget> _screens = [
     const HomeScreen(),
-    const Center(child: Text('Trending', style: TextStyle(color: Colors.white))),
+    const TrendingScreen(),
     const NewsScreen(),
     const Center(child: Text('Wallet', style: TextStyle(color: Colors.white))),
     const Center(child: Text('Profile', style: TextStyle(color: Colors.white))),
