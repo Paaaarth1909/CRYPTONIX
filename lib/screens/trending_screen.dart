@@ -22,7 +22,7 @@ class _TrendingScreenState extends State<TrendingScreen> {
 
   Future<void> _fetchCryptoData() async {
     try {
-      final coins = await _apiService.getTopCryptoCoins();
+      final coins = await _apiService.getCryptoList();
       setState(() {
         _cryptoCoins = coins;
       });
@@ -36,13 +36,13 @@ class _TrendingScreenState extends State<TrendingScreen> {
     final List<CryptoCoin> sortedCoins = List.from(_cryptoCoins);
     switch (_selectedFilter) {
       case 'Loss':
-        sortedCoins.sort((a, b) => a.priceChangePercentage24h.compareTo(b.priceChangePercentage24h));
-        return sortedCoins.where((coin) => coin.priceChangePercentage24h < 0).toList();
+        sortedCoins.sort((a, b) => a.changePct.compareTo(b.changePct));
+        return sortedCoins.where((coin) => coin.changePct < 0).toList();
       case 'Profit':
-        sortedCoins.sort((a, b) => b.priceChangePercentage24h.compareTo(a.priceChangePercentage24h));
-        return sortedCoins.where((coin) => coin.priceChangePercentage24h > 0).toList();
+        sortedCoins.sort((a, b) => b.changePct.compareTo(a.changePct));
+        return sortedCoins.where((coin) => coin.changePct > 0).toList();
       case '24h Vol':
-        sortedCoins.sort((a, b) => b.volume24h.compareTo(a.volume24h));
+        sortedCoins.sort((a, b) => b.volume.compareTo(a.volume));
         return sortedCoins;
       default:
         return sortedCoins;
@@ -126,16 +126,15 @@ class _TrendingScreenState extends State<TrendingScreen> {
   }
 
   Widget _buildCryptoListItem(CryptoCoin coin) {
-    final priceChangeColor = coin.priceChangePercentage24h >= 0 
-        ? const Color(0xFF00FFA3)
-        : Colors.red;
+    final priceChangeColor =
+        coin.changePct >= 0 ? const Color(0xFF00FFA3) : Colors.red;
 
     return Container(
       margin: const EdgeInsets.only(bottom: 16),
       child: Row(
         children: [
           Image.network(
-            coin.imageUrl,
+            coin.icon,
             width: 40,
             height: 40,
             errorBuilder: (context, error, stackTrace) {
@@ -177,7 +176,7 @@ class _TrendingScreenState extends State<TrendingScreen> {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Text(
-                '\$${coin.currentPrice.toStringAsFixed(3)}',
+                '\$${coin.rate.toStringAsFixed(3)}',
                 style: const TextStyle(
                   color: Colors.white,
                   fontSize: 16,
@@ -185,7 +184,7 @@ class _TrendingScreenState extends State<TrendingScreen> {
                 ),
               ),
               Text(
-                '${coin.priceChangePercentage24h >= 0 ? "+" : ""}${coin.priceChangePercentage24h.toStringAsFixed(2)}%',
+                '${coin.changePct >= 0 ? "+" : ""}${coin.changePct.toStringAsFixed(2)}%',
                 style: TextStyle(
                   color: priceChangeColor,
                   fontSize: 12,
@@ -198,4 +197,4 @@ class _TrendingScreenState extends State<TrendingScreen> {
       ),
     );
   }
-} 
+}
